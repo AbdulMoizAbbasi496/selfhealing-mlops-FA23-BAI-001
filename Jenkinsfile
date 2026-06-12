@@ -70,12 +70,10 @@ pipeline {
 
                         # Build and push stable image from stable-fallback branch
                         git fetch origin stable-fallback
-                        git checkout stable-fallback -- app.py
-                        docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:stable .
-                        docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:stable
-
-                        # Restore main branch app.py
-                        git checkout main -- app.py
+git checkout FETCH_HEAD -- app.py
+docker build -t ${DOCKERHUB_USER}/${IMAGE_NAME}:stable .
+docker push ${DOCKERHUB_USER}/${IMAGE_NAME}:stable
+git checkout HEAD -- app.py
                     """
                 }
             }

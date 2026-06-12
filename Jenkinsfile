@@ -79,17 +79,19 @@ git checkout HEAD -- app.py
             }
         }
 
-        stage('Deploy to Minikube') {
-            steps {
-                sh """
-                    kubectl apply -f k8s/pvc.yaml
-                    kubectl apply -f k8s/blue-deployment.yaml
-                    kubectl apply -f k8s/green-deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    kubectl rollout status deployment/sentiment-blue-deployment --timeout=120s
-                """
-            }
-        }
+    stage('Deploy to Minikube') {
+    steps {
+        sh """
+            export KUBECONFIG=/var/lib/jenkins/.kube/config
+            kubectl apply -f k8s/pvc.yaml
+            kubectl apply -f k8s/blue-deployment.yaml
+            kubectl apply -f k8s/green-deployment.yaml
+            kubectl apply -f k8s/service.yaml
+            kubectl rollout status deployment/sentiment-blue-deployment --timeout=120s
+            kubectl rollout status deployment/sentiment-green-deployment --timeout=120s
+        """
+    }
+}
     }
 
     post {

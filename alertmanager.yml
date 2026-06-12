@@ -1,0 +1,15 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: jenkins-rollback-webhook
+
+receivers:
+  - name: jenkins-rollback-webhook
+    webhook_configs:
+      - url: 'http://44.194.91.194:8080/generic-webhook-trigger/invoke?token=ROLLBACK_829AF4_TOKEN'
+        http_config:
+          basic_auth:
+            username: 'admin'
+            password: '11a6d0abcb0e57cf4f7fe51dbc3b6c2757'
+        send_resolved: false
